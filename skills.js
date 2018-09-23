@@ -1,6 +1,7 @@
 // Skills Array to Search
 
 exports.skillsArr = [
+  'javascript',
   'angular',
   'react',
   'ember',
