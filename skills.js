@@ -67,5 +67,11 @@ exports.skillsArr = [
   'taffydb',
   'mongo',
   'tween',
-  'voca'
+  'voca',
+  '.net',
+  'docker',
+  'mvc',
+  'asp.net',
+  'c#',
+  'rabbitmq'
 ];
