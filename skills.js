@@ -73,5 +73,12 @@ exports.skillsArr = [
   'mvc',
   'asp.net',
   'c#',
-  'rabbitmq'
+  'rabbitmq',
+  'ftp',
+  'dom',
+  'linq',
+  'agile',
+  'ado.net',
+  'aws',
+  'gulp'
 ];
