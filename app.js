@@ -15,6 +15,7 @@ var results = {};
 var links = [];
 var countArr = [];
 var jobCount;
+var jobDescArr = [];
 
 
 // Collect all search result pages and return as array
@@ -63,7 +64,7 @@ function requestPage(url) {
         });
         console.log("Links Collected:", links.length);
 
-        return resolve(links);
+        resolve("Success");
       }
     });
   });
@@ -74,9 +75,54 @@ function allPages(indeedPages) {
   indeedPages.forEach(function(item) {
     promises.push(requestPage(item));
   });
-  Promise.all(promises).then(function() {
-    console.log(links);
+  Promise.all(promises).then(parsePromisify, errHandler);
+}
+
+function parsePromisify() {
+  var promises = [];
+  links.forEach(function(item) {
+    promises.push(parse(item));
   });
+  Promise.all(promises).then(searchForSkills, errHandler);
+}
+
+// Parse job description and call search function
+function parse(parseURL) {
+  return new Promise(function(resolve, reject) {
+    var jobDescription = "";
+    request(parseURL, function(error, response, body) {
+      if (error) {
+        reject(error);
+      } else {
+        var $ = cheerio.load(body);
+        var text = $('.jobsearch-JobComponent-description').contents().each(
+          function(i, elem) {
+            jobDescription += $(this).text();
+          }
+        );
+        jobDescArr.push(jobDescription);
+        resolve("Success");
+      }
+    });
+  });
+}
+
+// Iterate through skills array and add found skills to results object
+function searchForSkills() {
+  jobDescArr.forEach(function(item) {
+    skills.skillsArr.forEach(function(element) {
+      var expr = new RegExp(element, 'i');
+      if(expr.test(item)) {
+        if(results[element]) {
+          results[element] += 1;
+        }
+        else {
+          results[element] = 1;
+        }
+      }
+    });
+  });
+  console.log(results);
 }
 
 function main() {
@@ -85,35 +131,3 @@ function main() {
 }
 
 main();
-
-//
-// // Parse job description and call search function
-// function parse(parseURL) {
-//   var jobDescription = "";
-//   request(parseURL, function(error, response, body) {
-//     var $ = cheerio.load(body);
-//     var text = $('.jobsearch-JobComponent-description').contents().each(
-//       function(i, elem) {
-//         jobDescription += $(this).text();
-//       }
-//     );
-//     searchForSkills(jobDescription);
-//   });
-// }
-//
-// // Iterate through skills array and add found skills to results object
-// function searchForSkills(jobDescription) {
-//   // console.log(jobDescription);
-//   skills.skillsArr.forEach(function(element) {
-//     var expr = new RegExp(element, 'i');
-//     if(expr.test(jobDescription)) {
-//       if(results[element]) {
-//         results[element] += 1;
-//       }
-//       else {
-//         results[element] = 1;
-//       }
-//     }
-//   });
-//   console.log(results);
-// }
