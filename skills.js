@@ -2,6 +2,7 @@
 
 exports.skillsArr = [
   'javascript',
+  'node',
   'angular',
   'react',
   'ember',
