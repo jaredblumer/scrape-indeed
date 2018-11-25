@@ -1,15 +1,17 @@
 # Scrape Indeed
 
-This app scrapes Indeed.com for the skills required for developer jobs in Pittsburgh, Pennsylvania
-and displays the results in the terminal. This app will be updated soon to request which city and state the user wishes to use as the location.
+This app scrapes Indeed.com for the skills required for developer jobs and displays the results in the terminal.
 
 ## Instructions
 
-To run the application, download the repository and open the unzipped directory in your terminal. Run the following commands:
+Download or clone the repository. Open app.js and update the url variable to include your desired City, State, and Radius, replacing Pittsburgh, PA, and 25 respectively. Save app.js.
+
+Open the directory in your terminal and run the following commands:
 ```
 npm install
 node app.js
 ```
+The results will be displayed in the console.
 
 ## Author
 
