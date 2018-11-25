@@ -13,6 +13,7 @@ var url = 'https://www.indeed.com/jobs?q=javascript&l=Pittsburgh%2C+PA&limit=50&
 var results = {};
 // Array of job description links
 var links = [];
+
 var countArr = [];
 var jobCount;
 var jobDescArr = [];
@@ -47,10 +48,12 @@ function initialize() {
   });
 }
 
+// Error handler for Promises
 var errHandler = function(error) {
   console.error(error);
 };
 
+// Collect job description links from specified page
 function requestPage(url) {
   return new Promise(function(resolve, reject) {
     request(url, function(error, response, body) {
@@ -70,6 +73,7 @@ function requestPage(url) {
   });
 }
 
+// Run requestPage function on each search query result page
 function allPages(indeedPages) {
   var promises = [];
   indeedPages.forEach(function(item) {
@@ -78,6 +82,7 @@ function allPages(indeedPages) {
   Promise.all(promises).then(parsePromisify, errHandler);
 }
 
+// Run parse function on all collected links
 function parsePromisify() {
   var promises = [];
   links.forEach(function(item) {
@@ -86,7 +91,7 @@ function parsePromisify() {
   Promise.all(promises).then(searchForSkills, errHandler);
 }
 
-// Parse job description and call search function
+// Parse job description
 function parse(parseURL) {
   return new Promise(function(resolve, reject) {
     var jobDescription = "";
@@ -125,9 +130,9 @@ function searchForSkills() {
   console.log(results);
 }
 
+// Begins sequence of functions
 function main() {
  var initalizePromise = initialize().then(allPages, errHandler);
-
 }
 
 main();
